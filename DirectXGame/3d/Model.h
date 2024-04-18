@@ -96,7 +96,7 @@ public: // 列挙子
 		kMaterial,       // マテリアル
 		kTexture,        // テクスチャ
 		kLight,          // ライト
-		kObjectColor,	 // オブジェクトアルファ
+		kObjectColor,    // オブジェクトアルファ
 	};
 
 private:
@@ -156,7 +156,9 @@ public: // メンバ関数
 	/// <param name="worldTransform">ワールドトランスフォーム</param>
 	/// <param name="viewProjection">ビュープロジェクション</param>
 	/// <param name="objectColor">オブジェクトカラー</param>
-	void Draw(const WorldTransform& worldTransform, const ViewProjection& viewProjection, const ObjectColor* objectColor = nullptr);
+	void Draw(
+	    const WorldTransform& worldTransform, const ViewProjection& viewProjection,
+	    const ObjectColor* objectColor = nullptr);
 
 	/// <summary>
 	/// 描画（テクスチャ差し替え）
