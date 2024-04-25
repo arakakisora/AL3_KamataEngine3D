@@ -4,6 +4,8 @@
 #include "ImGuiManager.h"
 #include "PrimitiveDrawer.h"
 #include "AxisIndicator.h"
+#include "WinApp.h"
+
 
 GameScene::GameScene() {}
 
@@ -27,7 +29,7 @@ void GameScene::Initialize() {
 	audio_->PlayWave(soundDataHandle_);
 	voiceHandle_ = audio_->PlayWave(soundDataHandle_, true);
 	PrimitiveDrawer::GetInstance()->SetViewProjection(&viewprojection_);
-	debugCamera_ = new DebugCamera(100, 100);
+	debugCamera_ = new DebugCamera(WinApp::kWindowWidth, WinApp::kWindowHeight);
 	AxisIndicator::GetInstance()->SetVisible(true);
 	AxisIndicator::GetInstance()->SetTargetViewProjection(&debugCamera_->GetViewProjection());
 	
