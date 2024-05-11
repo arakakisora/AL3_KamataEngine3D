@@ -8,6 +8,8 @@
 #include "ViewProjection.h"
 #include "WorldTransform.h"
 #include "Player.h"//プレイヤー
+#include <vector>
+#include "Vector3SRT.h"
 
 /// <summary>
 /// ゲームシーン
@@ -56,7 +58,9 @@ private: // メンバ変数
 	Model* model_ = nullptr;		//3Dモデル
 	ViewProjection viewProjection_;	// ビュープロジェクション　ゲーム中に共通で一つ
 	Player* player_ = nullptr;		//自機
+
+	Model* blockModel_ = nullptr;
+	//std::vector<std::vector<WorldTransform*>> worldTransformBlocks_;
+	std::vector<std::vector<WorldTransform*>> worldTransformBlocks_;
 	
-
-
 };

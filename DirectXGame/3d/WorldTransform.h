@@ -5,6 +5,8 @@
 #include <d3d12.h>
 #include <type_traits>
 #include <wrl.h>
+#include "Vector3SRT.h"
+
 
 // 定数バッファ用データ構造体
 struct ConstBufferDataWorldTransform {
@@ -30,6 +32,10 @@ public:
 	WorldTransform() = default;
 	~WorldTransform() = default;
 
+	/// <summary>
+	/// 初期化
+	/// </summary>
+	void UpdateMatrix();
 	/// <summary>
 	/// 初期化
 	/// </summary>
