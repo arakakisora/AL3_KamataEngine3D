@@ -10,6 +10,7 @@
 #include "Player.h"//プレイヤー
 #include <vector>
 #include "Vector3SRT.h"
+#include "DebugCamera.h"
 
 /// <summary>
 /// ゲームシーン
@@ -60,6 +61,12 @@ private: // メンバ変数
 	Player* player_ = nullptr;		//自機
 
 	Model* blockModel_ = nullptr;
+	bool isDebugCameraActive_ = false;
+	DebugCamera* debugCamera_ = nullptr;
+
+	
+
+	
 	//std::vector<std::vector<WorldTransform*>> worldTransformBlocks_;
 	std::vector<std::vector<WorldTransform*>> worldTransformBlocks_;
 	

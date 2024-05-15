@@ -17,6 +17,8 @@ GameScene::~GameScene() {
 		}
 	}
 	worldTransformBlocks_.clear();
+
+	delete debugCamera_;
 }
 
 void GameScene::Initialize() {
@@ -53,8 +55,8 @@ void GameScene::Initialize() {
 	//キューブ生成
 	for (uint32_t i = 0; i < kNumBlokVirtical; ++i) {
 		for (uint32_t j = 0; j < kNumBlokHorizontal; ++j) {
-			if (i % 2 == 0) {
-				if (j % 2 == 0) {
+			if (i % 2 != 0) {
+				if (j % 2 != 0) {
 
 					worldTransformBlocks_[i][j] = new WorldTransform();
 					worldTransformBlocks_[i][j]->Initialize();
@@ -68,12 +70,11 @@ void GameScene::Initialize() {
 		}
 	}
 
+	debugCamera_ = new DebugCamera(1280, 720);
 }
 
 void GameScene::Update() { 
 	player_->Update();
-
-	
 
 	for (std::vector<WorldTransform*>& worldTransformBlockLine : worldTransformBlocks_) {
 		for (WorldTransform* worldTransformBlock : worldTransformBlockLine) {
@@ -84,6 +85,33 @@ void GameScene::Update() {
 			worldTransformBlock->TransferMatrix();
 		}
 	}
+
+	
+	
+
+	#ifdef _DEBUG
+	if (input_->TriggerKey(DIK_C)) {
+	
+		isDebugCameraActive_ = true;
+	} 
+
+#endif // DEBUG
+
+
+	if (isDebugCameraActive_) {
+		debugCamera_->Update();
+		viewProjection_.matView = debugCamera_->GetViewProjection().matView;
+		viewProjection_.matProjection = debugCamera_->GetViewProjection().matProjection;
+		//ビュープロジェクション行列
+		viewProjection_.TransferMatrix();
+
+	} else {
+		//ビュープロジェクション行列の更新と転送
+		viewProjection_.UpdateMatrix();
+	
+	
+	}
+
 }
 
 void GameScene::Draw() {
@@ -120,9 +148,10 @@ void GameScene::Draw() {
 			if (!worldTransformBlock)
 				continue;
 			blockModel_->Draw(*worldTransformBlock, viewProjection_);
+			
 		}
+	
 	}
-
 
 
 	// 3Dオブジェクト描画後処理
