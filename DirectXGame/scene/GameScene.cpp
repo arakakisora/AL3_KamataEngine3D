@@ -9,6 +9,8 @@ GameScene::~GameScene() {
 	delete model_;
 	delete player_;
 	delete blockModel_;
+	delete debugCamera_;
+	delete skydome_;
 
 	for (std::vector<WorldTransform*>& worldTransformBlockLine : worldTransformBlocks_) {
 		for (WorldTransform* worldTransformBlock : worldTransformBlockLine) {
@@ -18,7 +20,6 @@ GameScene::~GameScene() {
 	}
 	worldTransformBlocks_.clear();
 
-	delete debugCamera_;
 }
 
 void GameScene::Initialize() {
@@ -29,13 +30,19 @@ void GameScene::Initialize() {
 
 	//テクスチャ読み込み
 	texturHandle_ = TextureManager::Load("uvChecker.png");
-	//3Dモデルの生成
-	model_ = Model::Create();
+	
 	//ビュープロジェクションの初期化
 	viewProjection_.Initialize();
+
+	//プレイヤー
 	player_ = new Player();
+	model_ = Model::Create(); // 3Dモデルの生成
 	player_->Initialize(model_, texturHandle_, &viewProjection_);
 
+	// 天球
+	skydome_ = new Skydome();
+	modelSkydome_ = Model::CreateFromOBJ("skydome",true);
+	skydome_->Initialize(modelSkydome_, &viewProjection_);
 
 	blockModel_ = Model::Create();
 	//要素数
@@ -69,12 +76,14 @@ void GameScene::Initialize() {
 			
 		}
 	}
-
 	debugCamera_ = new DebugCamera(1280, 720);
+
+
 }
 
 void GameScene::Update() { 
 	player_->Update();
+	
 
 	for (std::vector<WorldTransform*>& worldTransformBlockLine : worldTransformBlocks_) {
 		for (WorldTransform* worldTransformBlock : worldTransformBlockLine) {
@@ -142,7 +151,7 @@ void GameScene::Draw() {
 	/// </summary>
 	
 	//player_->Draw();
-	
+	skydome_->Draw();
 	for (std::vector<WorldTransform*>& worldTransformBlockLine : worldTransformBlocks_) {
 		for (WorldTransform* worldTransformBlock : worldTransformBlockLine) {
 			if (!worldTransformBlock)

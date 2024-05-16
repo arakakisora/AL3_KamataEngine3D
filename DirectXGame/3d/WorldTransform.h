@@ -32,14 +32,15 @@ public:
 	WorldTransform() = default;
 	~WorldTransform() = default;
 
-	/// <summary>
-	/// 初期化
-	/// </summary>
-	void UpdateMatrix();
+	
 	/// <summary>
 	/// 初期化
 	/// </summary>
 	void Initialize();
+	/// <summary>
+	/// 初期化
+	/// </summary>
+	void UpdateMatrix();
 	/// <summary>
 	/// 定数バッファ生成
 	/// </summary>

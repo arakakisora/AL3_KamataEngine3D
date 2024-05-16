@@ -11,6 +11,7 @@
 #include <vector>
 #include "Vector3SRT.h"
 #include "DebugCamera.h"
+#include "Skydome.h"
 
 /// <summary>
 /// ゲームシーン
@@ -58,12 +59,17 @@ private: // メンバ変数
 	
 	Model* model_ = nullptr;		//3Dモデル
 	ViewProjection viewProjection_;	// ビュープロジェクション　ゲーム中に共通で一つ
+
 	Player* player_ = nullptr;		//自機
 
+	//mapblock
 	Model* blockModel_ = nullptr;
 	bool isDebugCameraActive_ = false;
 	DebugCamera* debugCamera_ = nullptr;
 
+	//天球
+	Skydome* skydome_ = nullptr;
+	Model* modelSkydome_ = nullptr;
 	
 
 	
