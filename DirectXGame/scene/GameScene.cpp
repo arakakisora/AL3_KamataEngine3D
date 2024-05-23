@@ -2,7 +2,6 @@
 #include "TextureManager.h"
 #include <cassert>
 
-
 GameScene::GameScene() {}
 
 GameScene::~GameScene() {
@@ -11,6 +10,7 @@ GameScene::~GameScene() {
 	delete blockModel_;
 	delete debugCamera_;
 	delete skydome_;
+	delete mapChipField_;
 
 	for (std::vector<WorldTransform*>& worldTransformBlockLine : worldTransformBlocks_) {
 		for (WorldTransform* worldTransformBlock : worldTransformBlockLine) {
@@ -19,7 +19,6 @@ GameScene::~GameScene() {
 		}
 	}
 	worldTransformBlocks_.clear();
-
 }
 
 void GameScene::Initialize() {
@@ -28,63 +27,36 @@ void GameScene::Initialize() {
 	input_ = Input::GetInstance();
 	audio_ = Audio::GetInstance();
 
-	//テクスチャ読み込み
+	// テクスチャ読み込み
 	texturHandle_ = TextureManager::Load("uvChecker.png");
-	
-	//ビュープロジェクションの初期化
+
+	// ビュープロジェクションの初期化
 	viewProjection_.Initialize();
 
-	//プレイヤー
+	// Player
 	player_ = new Player();
 	model_ = Model::Create(); // 3Dモデルの生成
 	player_->Initialize(model_, texturHandle_, &viewProjection_);
 
-	// 天球
+	// SkyDome
 	skydome_ = new Skydome();
-	modelSkydome_ = Model::CreateFromOBJ("skydome",true);
+	modelSkydome_ = Model::CreateFromOBJ("skydome", true);
 	skydome_->Initialize(modelSkydome_, &viewProjection_);
 
+	// Block
 	blockModel_ = Model::Create();
-	//要素数
-	const uint32_t kNumBlokVirtical = 10;
-	const uint32_t kNumBlokHorizontal = 20;
-	//ブロック1個分の横幅
-	const float kBlockwidth = 2.0f;
-	const float kBlockheight = 2.0f;
-	//要素数を変更する
-	//列数を設定
-	worldTransformBlocks_.resize(kNumBlokVirtical);
-	for(uint32_t i = 0; i < kNumBlokVirtical; ++i) {
-	
-		worldTransformBlocks_[i].resize(kNumBlokHorizontal);
-	
-	}
-	//キューブ生成
-	for (uint32_t i = 0; i < kNumBlokVirtical; ++i) {
-		for (uint32_t j = 0; j < kNumBlokHorizontal; ++j) {
-			if (i % 2 != 0) {
-				if (j % 2 != 0) {
 
-					worldTransformBlocks_[i][j] = new WorldTransform();
-					worldTransformBlocks_[i][j]->Initialize();
-					worldTransformBlocks_[i][j]->translation_.x = kBlockwidth * j;
-					worldTransformBlocks_[i][j]->translation_.y = kBlockheight * i;
-				}
-			}
-
-
-			
-		}
-	}
+	// DebugCamera
 	debugCamera_ = new DebugCamera(1280, 720);
-
-
+	// MapChipFiled
+	mapChipField_ = new MapChipField;
+	mapChipField_->LoadMapChipCsv("Resources/blocks.csv");
+	GenerateBlokcs();
 }
 
-void GameScene::Update() { 
+void GameScene::Update() {
 	player_->Update();
-	
-
+	//Block
 	for (std::vector<WorldTransform*>& worldTransformBlockLine : worldTransformBlocks_) {
 		for (WorldTransform* worldTransformBlock : worldTransformBlockLine) {
 			if (!worldTransformBlock)
@@ -95,32 +67,53 @@ void GameScene::Update() {
 		}
 	}
 
-	
-	
-
-	#ifdef _DEBUG
+#ifdef _DEBUG
 	if (input_->TriggerKey(DIK_C)) {
-	
+
 		isDebugCameraActive_ = true;
-	} 
+	}
 
 #endif // DEBUG
-
 
 	if (isDebugCameraActive_) {
 		debugCamera_->Update();
 		viewProjection_.matView = debugCamera_->GetViewProjection().matView;
 		viewProjection_.matProjection = debugCamera_->GetViewProjection().matProjection;
-		//ビュープロジェクション行列
+		// ビュープロジェクション行列
 		viewProjection_.TransferMatrix();
 
 	} else {
-		//ビュープロジェクション行列の更新と転送
+		// ビュープロジェクション行列の更新と転送
 		viewProjection_.UpdateMatrix();
-	
-	
 	}
+}
 
+void GameScene::GenerateBlokcs() {
+
+	// 要素数
+	uint32_t numBlokVirtical = mapChipField_->GetNumBlockVirtical();     // 縦
+	uint32_t numBlokHorizontal = mapChipField_->GetNumBlockHorizontal(); // 横
+
+	// 要素数を変更する
+	// 列数を設定
+	worldTransformBlocks_.resize(numBlokVirtical);
+	for (uint32_t i = 0; i < numBlokVirtical; ++i) {
+
+		worldTransformBlocks_[i].resize(numBlokHorizontal);
+	}
+	// キューブ生成
+	for (uint32_t i = 0; i < numBlokVirtical; ++i) {
+		for (uint32_t j = 0; j < numBlokHorizontal; ++j) {
+
+			if (mapChipField_->GetMapChipTypeByIndex(j, i) == MapChipType::kBlock) {
+
+				WorldTransform* worldTransform = new WorldTransform();
+				worldTransform->Initialize();
+				worldTransformBlocks_[i][j] = worldTransform;
+				worldTransformBlocks_[i][j]->translation_ = mapChipField_->GetMapChipPostionByIndex(j, i);
+			}
+		}
+	}
 }
 
 void GameScene::Draw() {
@@ -149,19 +142,16 @@ void GameScene::Draw() {
 	/// <summary>
 	/// ここに3Dオブジェクトの描画処理を追加できる
 	/// </summary>
-	
-	//player_->Draw();
+
+	// player_->Draw();
 	skydome_->Draw();
 	for (std::vector<WorldTransform*>& worldTransformBlockLine : worldTransformBlocks_) {
 		for (WorldTransform* worldTransformBlock : worldTransformBlockLine) {
 			if (!worldTransformBlock)
 				continue;
 			blockModel_->Draw(*worldTransformBlock, viewProjection_);
-			
 		}
-	
 	}
-
 
 	// 3Dオブジェクト描画後処理
 	Model::PostDraw();
