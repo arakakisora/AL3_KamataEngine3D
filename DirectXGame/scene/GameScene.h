@@ -9,7 +9,7 @@
 #include "Player.h" //プレイヤー
 #include "Skydome.h"
 #include "Sprite.h"
-#include "Vector3SRT.h"
+#include "MyMath.h"
 #include "ViewProjection.h"
 #include "WorldTransform.h"
 #include <vector>

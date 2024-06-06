@@ -46,7 +46,7 @@ void MapChipField::LoadMapChipCsv(const std::string& filePath) {
 		// 1桁分の文字列をストリームに変換して解析しやすくする
 		std::istringstream lien_stream(line);
 
-		for (uint32_t x = 0; x < kNumBlockVirtical; ++x) {
+		for (uint32_t x = 0; x < kNumBlockHorizontal; ++x) {
 
 			std::string word;
 			getline(lien_stream, word, ',');

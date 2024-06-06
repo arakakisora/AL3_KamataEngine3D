@@ -28,15 +28,16 @@ void GameScene::Initialize() {
 	audio_ = Audio::GetInstance();
 
 	// テクスチャ読み込み
-	texturHandle_ = TextureManager::Load("uvChecker.png");
+	texturHandle_ = TextureManager::Load("pralyer.png");
 
 	// ビュープロジェクションの初期化
 	viewProjection_.Initialize();
 
 	// Player
 	player_ = new Player();
-	model_ = Model::Create(); // 3Dモデルの生成
-	player_->Initialize(model_, texturHandle_, &viewProjection_);
+	model_ = Model::CreateFromOBJ("player",true); // 3Dモデルの生成
+	Vector3 playerPostion = mapChipField_->GetMapChipPostionByIndex(5, 18);
+	player_->Initialize(model_, &viewProjection_, playerPostion);
 
 	// SkyDome
 	skydome_ = new Skydome();
@@ -143,7 +144,7 @@ void GameScene::Draw() {
 	/// ここに3Dオブジェクトの描画処理を追加できる
 	/// </summary>
 
-	// player_->Draw();
+	 player_->Draw();
 	skydome_->Draw();
 	for (std::vector<WorldTransform*>& worldTransformBlockLine : worldTransformBlocks_) {
 		for (WorldTransform* worldTransformBlock : worldTransformBlockLine) {
