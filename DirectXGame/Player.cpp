@@ -30,7 +30,7 @@ void Player::Update() {
 				if (lrDirection_ != LRDirecion::kright) {
 					lrDirection_ = LRDirecion::kright;
 					turnFirstRotationY_ = worldTransform_.rotation_.y;
-					turnTimer_ = 0.5f;
+					turnTimer_ = kLimitRunSpeed;
 				}
 
 				accceleration.x += kAccleration;
@@ -43,7 +43,7 @@ void Player::Update() {
 				if (lrDirection_ != LRDirecion::kLeft) {
 					lrDirection_ = LRDirecion::kLeft;
 					turnFirstRotationY_ = worldTransform_.rotation_.y;
-					turnTimer_ = 0.5f;
+					turnTimer_ = kLimitRunSpeed;
 				}
 
 				accceleration.x -= kAccleration;

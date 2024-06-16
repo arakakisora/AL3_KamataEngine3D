@@ -25,6 +25,8 @@ public:
 	void Draw();
 
 	float EaseOutSine(float x);
+	const WorldTransform &GetWorldTransform() { return worldTransform_; }
+	const Vector3& GetVelocity() const { return velocity_; }
 
 private:
 
@@ -33,9 +35,9 @@ private:
 	ViewProjection* viewProjection_ = nullptr;  // ViewProjection
 	//移動
 	Vector3 velocity_ = {};                     // 速度
-	static inline const float kAccleration = 0.1f; // 定数加速度
-	static inline const float kAttenuation = 1.0f;
-	static inline const float kLimitRunSpeed = 0.5f;
+	static inline const float kAccleration = 0.01f; // 定数加速度
+	static inline const float kAttenuation = 0.2f;//速度減衰率
+	static inline const float kLimitRunSpeed = 1.0f;//最大速度制限
 	//振り向き
 	LRDirecion lrDirection_ = LRDirecion::kright;
 	float turnFirstRotationY_ = 0.0f;           // 現在の向き

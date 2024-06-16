@@ -12,6 +12,7 @@
 #include "MyMath.h"
 #include "ViewProjection.h"
 #include "WorldTransform.h"
+#include "CameraController.h"
 #include <vector>
 
 /// <summary>
@@ -76,9 +77,12 @@ private: // メンバ変数
 	// SkyDome
 	Skydome* skydome_ = nullptr;
 	Model* modelSkydome_ = nullptr;
-
 	std::vector<std::vector<WorldTransform*>> worldTransformBlocks_;
 
 	// MapChipField
 	MapChipField* mapChipField_;
+
+	//CameraController
+	CameraController* cameraController_=nullptr;
+
 };

@@ -35,7 +35,7 @@ void GameScene::Initialize() {
 
 	// Player
 	player_ = new Player();
-	model_ = Model::CreateFromOBJ("player",true); // 3Dモデルの生成
+	model_ = Model::CreateFromOBJ("player", true); // 3Dモデルの生成
 	Vector3 playerPostion = mapChipField_->GetMapChipPostionByIndex(5, 18);
 	player_->Initialize(model_, &viewProjection_, playerPostion);
 
@@ -53,11 +53,21 @@ void GameScene::Initialize() {
 	mapChipField_ = new MapChipField;
 	mapChipField_->LoadMapChipCsv("Resources/blocks.csv");
 	GenerateBlokcs();
+
+	// CameraController
+	CameraController::Rect cameraArea = {12.0f, 100 - 12.0f, 6.0f, 6.0f};
+	cameraController_ = new CameraController();
+	cameraController_->Initialize();
+	cameraController_->SetTarget(player_);
+	cameraController_->SetMovableArea(cameraArea);
+	cameraController_->Reset();
 }
 
 void GameScene::Update() {
 	player_->Update();
-	//Block
+	cameraController_->Update();
+
+	// Block
 	for (std::vector<WorldTransform*>& worldTransformBlockLine : worldTransformBlocks_) {
 		for (WorldTransform* worldTransformBlock : worldTransformBlockLine) {
 			if (!worldTransformBlock)
@@ -84,8 +94,10 @@ void GameScene::Update() {
 		viewProjection_.TransferMatrix();
 
 	} else {
+		viewProjection_.matView = cameraController_->GetViewProjection().matView;
+		viewProjection_.matProjection = cameraController_->GetViewProjection().matProjection;
 		// ビュープロジェクション行列の更新と転送
-		viewProjection_.UpdateMatrix();
+		viewProjection_.TransferMatrix();
 	}
 }
 
@@ -144,7 +156,7 @@ void GameScene::Draw() {
 	/// ここに3Dオブジェクトの描画処理を追加できる
 	/// </summary>
 
-	 player_->Draw();
+	player_->Draw();
 	skydome_->Draw();
 	for (std::vector<WorldTransform*>& worldTransformBlockLine : worldTransformBlocks_) {
 		for (WorldTransform* worldTransformBlock : worldTransformBlockLine) {

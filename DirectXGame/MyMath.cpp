@@ -413,6 +413,30 @@ Matrix4x4 MekeIdentity4x4()
 
 }
 
+const Vector3 operator+(const Vector3& v1, const Vector3& v2) {
+
+	Vector3 temp=v1;
+	Vector3 resurut = {temp.x + v2.x, temp.y + v2.y, temp.z + v2.z};
+
+	return resurut;
+};
+
+const Vector3 operator*(const Vector3& v1, const Vector3& v2) {
+
+	Vector3 temp = v1;
+	Vector3 resurut = {temp.x * v2.x, temp.y * v2.y, temp.z * v2.z};
+
+	return resurut;
+};
+const Vector3 operator*(const Vector3& v1, const float& v2) {
+	Vector3 temp = v1;
+	Vector3 resurut = {temp.x * v2, temp.y * v2, temp.z * v2};
+
+	return resurut;
+
+
+}
+
 Vector3 Cross(const Vector3& v1, const Vector3& v2)
 {
 	Vector3 ans;
@@ -447,6 +471,17 @@ Matrix4x4 MakeIdentity4x4() {
 	ans.m[3][1] = 0;
 	ans.m[3][2] = 0;
 	ans.m[3][3] = 1;
+
+	return ans;
+}
+
+Vector3 Lerp(const Vector3& a, const Vector3& b, float t) {
+
+	Vector3 ans;
+	
+	ans.x = t * a.x + (1.0f - t) * b.x;
+	ans.y = t * a.y + (1.0f - t) * b.y;
+	ans.z = t * a.z + (1.0f - t) * b.z;
 
 	return ans;
 }

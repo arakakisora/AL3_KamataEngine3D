@@ -8,6 +8,7 @@
 #include "Vector4.h"
 #include "Vector2.h"
 
+
 struct Transform {
 	Vector3 scale;
 	Vector3 rotate;
@@ -62,9 +63,13 @@ Matrix4x4 MekeIdentity4x4();
 //クロス積
 Vector3 Cross(const Vector3& v1, const Vector3& v2);
 
+const Vector3 operator+(const Vector3& v1, const Vector3& v2);
+const Vector3 operator*(const Vector3& v1, const Vector3& v2);
+const Vector3 operator*(const Vector3& v1, const float& v2);
+
 Matrix4x4 MakeIdentity4x4();
 
-
+Vector3 Lerp(const Vector3& a, const Vector3& b, float t);
 
 //void DrawGrid(const Matrix4x4& viewProjectionMatrix, const Matrix4x4& viewportMatrix) {
 //	const float kGridHalfWidth = 2.0f;
