@@ -369,16 +369,7 @@ const Vector3 operator+(const Vector3& v1, const Vector3& v2) {
 
 	return resurut;
 };
-const Vector3 operator+=(const Vector3& v1, const Vector3& v2) {
 
-	Vector3 temp = v1;
-	
-	temp.x += v2.x;
-	temp.y += v2.y;
-	temp.z += v2.z;
-
-	return temp;
-}
 const Vector3 operator*(const Vector3& v1, const Vector3& v2) {
 
 	Vector3 temp = v1;

@@ -64,7 +64,6 @@ Matrix4x4 MekeIdentity4x4();
 Vector3 Cross(const Vector3& v1, const Vector3& v2);
 
 const Vector3 operator+(const Vector3& v1, const Vector3& v2);
-const Vector3 operator+=(const Vector3& v1, const Vector3& v2);
 const Vector3 operator*(const Vector3& v1, const Vector3& v2);
 const Vector3 operator*(const Vector3& v1, const float& v2);
 

@@ -84,8 +84,9 @@ void Player::PrayerMove() {
 
 				accceleration.x -= kAccleration;
 			}
-			velocity_ += accceleration;
-			
+			velocity_.x += accceleration.x;
+			velocity_.y += accceleration.y;
+			velocity_.z += accceleration.z;
 
 			velocity_.x = std::clamp(velocity_.x, -kLimitRunSpeed, kLimitRunSpeed);
 
@@ -113,8 +114,6 @@ void Player::PrayerMove() {
 		velocity_.y = std::max(velocity_.y, -kLimitFallSpeed);
 	}
 
-
-	
 	// 着地フラグ
 	bool landing = false;
 	// 地面との当たり判定
@@ -182,7 +181,9 @@ Vector3 Player::CornerPosition(const Vector3& center, Corner corner) {
 
 void Player::PlayerCollisionMove(const CollisionMapInfo& info) {
 	// 移動
-	worldTransform_.translation_ += info.move;
+	worldTransform_.translation_.x += info.move.x;
+	worldTransform_.translation_.y += info.move.y;
+	worldTransform_.translation_.z += info.move.z;
 }
 
 // 天井当たった？
@@ -233,7 +234,6 @@ void Player::CollisionMapInfoTop(CollisionMapInfo& info) {
 		// 天井に当たったらことを記録する
 		info.ceiling = true;
 	}
-
 }
 
 float Player::EaseOutSine(float x) { return cosf((x * std::numbers::pi_v<float>) / 2); }
