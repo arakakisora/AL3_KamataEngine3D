@@ -14,7 +14,22 @@ void Player::Initialize(Model* model, ViewProjection* viewProjection, const Vect
 
 void Player::Update() {
 
-	// 移動入力
+	PlayerMove();
+
+	// 移動
+	worldTransform_.translation_.x += velocity_.x;
+	worldTransform_.translation_.y += velocity_.y;
+	worldTransform_.translation_.z += velocity_.z;
+
+	worldTransform_.UpdateMatrix();
+
+	// 行列を定数バッファに転送
+	worldTransform_.TransferMatrix();
+}
+
+void Player::PlayerMove() {
+
+// 移動入力
 	// 左右移動操作
 	if (onGround_) {
 
@@ -112,29 +127,18 @@ void Player::Update() {
 			onGround_ = false;
 		}
 	} else {
-		//着地
+		// 着地
 		if (landing) {
-			//めり込み排斤
+			// めり込み排斤
 			worldTransform_.translation_.y = 1.0f;
-			//摩擦で横方向速度が減衰する
+			// 摩擦で横方向速度が減衰する
 			velocity_.x *= (1.0f - kAttenuation);
-			//下方向速度をリセット
+			// 下方向速度をリセット
 			velocity_.y = 0.0f;
-			//接地状態に移行
+			// 接地状態に移行
 			onGround_ = true;
 		}
-	
 	}
-
-	// 移動
-	worldTransform_.translation_.x += velocity_.x;
-	worldTransform_.translation_.y += velocity_.y;
-	worldTransform_.translation_.y += velocity_.y;
-
-	worldTransform_.UpdateMatrix();
-
-	// 行列を定数バッファに転送
-	worldTransform_.TransferMatrix();
 }
 
 void Player::Draw() { model_->Draw(worldTransform_, *viewProjection_); }

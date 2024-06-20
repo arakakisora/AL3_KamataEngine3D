@@ -33,11 +33,7 @@ void GameScene::Initialize() {
 	// ビュープロジェクションの初期化
 	viewProjection_.Initialize();
 
-	// Player
-	player_ = new Player();
-	model_ = Model::CreateFromOBJ("player", true); // 3Dモデルの生成
-	Vector3 playerPostion = mapChipField_->GetMapChipPostionByIndex(5, 18);
-	player_->Initialize(model_, &viewProjection_, playerPostion);
+	
 
 	// SkyDome
 	skydome_ = new Skydome();
@@ -53,6 +49,13 @@ void GameScene::Initialize() {
 	mapChipField_ = new MapChipField;
 	mapChipField_->LoadMapChipCsv("Resources/blocks.csv");
 	GenerateBlokcs();
+
+	// Player
+	player_ = new Player();
+	model_ = Model::CreateFromOBJ("player", true); // 3Dモデルの生成
+	Vector3 playerPostion = mapChipField_->GetMapChipPostionByIndex(5, 18);
+	player_->Initialize(model_, &viewProjection_, playerPostion);
+	player_->SetMapChipFiled(mapChipField_);
 
 	// CameraController
 	CameraController::Rect cameraArea = {12.0f, 100 - 12.0f, 6.0f, 6.0f};

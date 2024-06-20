@@ -12,6 +12,7 @@ enum class LRDirecion {
 	kLeft,
 };
 
+class MapChipField;
 class Player {
 
 public:
@@ -21,12 +22,15 @@ public:
 	// 更新
 	void Update();
 
+	void PlayerMove();
+
 	// 描画
 	void Draw();
 
 	float EaseOutSine(float x);
 	const WorldTransform &GetWorldTransform() { return worldTransform_; }
 	const Vector3& GetVelocity() const { return velocity_; }
+	void SetMapChipFiled(MapChipField* mapChipFiled) { mapChipFiled_ = mapChipFiled; }
 
 private:
 
@@ -49,5 +53,7 @@ private:
 	static inline const float kLimitFallSpeed = 0.5f;//最大落下速度
 	static inline const float kJampAcceleration = 1.0f;//ジャンプ初速
 
-
+	MapChipField* mapChipFiled_ = nullptr;
+	static inline const float kWidth = 0.8f;
+	static inline const float kheight = 0.8f;
 };
