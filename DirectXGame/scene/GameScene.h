@@ -84,5 +84,7 @@ private: // メンバ変数
 
 	//CameraController
 	CameraController* cameraController_=nullptr;
+	static inline const float kWidth = 0.8f;
+	static inline const float kHeight = 0.8f;
 
 };

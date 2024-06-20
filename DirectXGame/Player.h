@@ -7,12 +7,33 @@
 #include <numbers>
 #include<algorithm>
 
-enum class LRDirecion {
-	kright,
-	kLeft,
-};
 
+	enum class LRDirecion {
+		kright,
+		kLeft,
+	};
+
+	struct CollisionMapInfo {
+
+		bool ceiling;//天井衝突
+		bool landing;//着地
+		bool hitWall;//壁接触
+		Vector3 move;//移動量
+	};
+
+	enum Corner {
+		kRightBottom,
+		kLeftBottom,
+		kRightTop,
+		kLeftTop,
+		kNumCorner//要素数
+	};
+
+  
+   
+class MapChipField;
 class Player {
+
 
 public:
 	// 初期化
@@ -24,9 +45,24 @@ public:
 	// 描画
 	void Draw();
 
+	void PrayerMove();
+
 	float EaseOutSine(float x);
 	const WorldTransform &GetWorldTransform() { return worldTransform_; }
 	const Vector3& GetVelocity() const { return velocity_; }
+	void SetMapChipField(MapChipField* mapChipFild) { mapChipFild_ = mapChipFild; }
+
+	//map衝突判定
+	void MapCollision(CollisionMapInfo&info);
+	Vector3 CornerPosition(const Vector3& centor, Corner corner);
+	void PlayerCollisionMove(const CollisionMapInfo& inffo);
+	void CeilingCollisionMove(const CollisionMapInfo& info);
+	
+	void CollisionMapInfoTop  (CollisionMapInfo& info);
+	void CollisionMapInfoBootm(CollisionMapInfo& info);
+	void CollisionMapInfoRight(CollisionMapInfo& info);
+	void CollisionMapInfoLeft (CollisionMapInfo& info);
+
 
 private:
 
@@ -48,6 +84,10 @@ private:
 	static inline const float kGravityAccleration = 0.1f;//重力加速度
 	static inline const float kLimitFallSpeed = 0.5f;//最大落下速度
 	static inline const float kJampAcceleration = 1.0f;//ジャンプ初速
-
+	//当たり判定
+	MapChipField* mapChipFild_ = nullptr;
+	static inline const float kWidth = 0.8f;
+	static inline const float kHeight = 0.8f;
+	static inline const float kBlank = 1.0;
 
 };
