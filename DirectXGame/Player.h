@@ -15,9 +15,9 @@
 
 	struct CollisionMapInfo {
 
-		bool ceiling;//天井衝突
-		bool landing;//着地
-		bool hitWall;//壁接触
+		bool ceiling=false;//天井衝突
+		bool landing=false;//着地
+		bool hitWall=false;//壁接触
 		Vector3 move;//移動量
 	};
 
@@ -81,9 +81,9 @@ private:
 	static inline const float KtimeTurn = 0.5f; // 角度補間タイム
 	//ジャンプ
 	bool onGround_ = true; // 接点状態フラグ
-	static inline const float kGravityAccleration = 0.1f;//重力加速度
-	static inline const float kLimitFallSpeed = 0.5f;//最大落下速度
-	static inline const float kJampAcceleration = 1.0f;//ジャンプ初速
+	static inline const float kGravityAccleration = 0.05f;//重力加速度
+	static inline const float kLimitFallSpeed = 0.7f;//最大落下速度
+	static inline const float kJampAcceleration = 0.7f;//ジャンプ初速
 	//当たり判定
 	MapChipField* mapChipFild_ = nullptr;
 	static inline const float kWidth = 0.8f;

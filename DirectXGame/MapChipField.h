@@ -40,13 +40,13 @@ public:
 	Vector3 GetMapChipPostionByIndex(uint32_t xIndex, uint32_t yIndex);
 	uint32_t GetNumBlockVirtical() { return kNumBlockVirtical; }
 	uint32_t GetNumBlockHorizontal() { return kNumBlockHorizontal; }
-	IndexSet GetMapVhipIndexSetByPosition(const Vector3& posotopn);
+	IndexSet GetMapChipIndexSetByPosition(const Vector3& posotopn);
 	Rect GetRectByIndex(uint32_t xindex, uint32_t yIndex);
 
 private:
 	// 1ブロックのサイズ
-	static inline const float kBlockWidth = 2.0f;
-	static inline const float kBlockHeight = 2.0f;
+	static inline const float kBlockWidth = 1.0f;
+	static inline const float kBlockHeight = 1.0f;
 	// ブロック個数
 	static inline const uint32_t kNumBlockVirtical = 20;
 	static inline const uint32_t kNumBlockHorizontal = 20;

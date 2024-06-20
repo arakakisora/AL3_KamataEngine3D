@@ -41,10 +41,11 @@ void GameScene::Initialize() {
 	skydome_->Initialize(modelSkydome_, &viewProjection_);
 
 	// Block
-	blockModel_ = Model::Create();
+	blockModel_ = Model::CreateFromOBJ("block",true);
 
 	// DebugCamera
 	debugCamera_ = new DebugCamera(1280, 720);
+
 	// MapChipFiled
 	mapChipField_ = new MapChipField;
 	mapChipField_->LoadMapChipCsv("Resources/blocks.csv");
