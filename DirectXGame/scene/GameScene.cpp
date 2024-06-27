@@ -54,12 +54,12 @@ void GameScene::Initialize() {
 	// Player
 	player_ = new Player();
 	model_ = Model::CreateFromOBJ("player", true); // 3Dモデルの生成
-	Vector3 playerPostion = mapChipField_->GetMapChipPostionByIndex(5, 18);
+	Vector3 playerPostion = mapChipField_->GetMapChipPostionByIndex(1, 18);
 	player_->SetMapChipField(mapChipField_);
 	player_->Initialize(model_, &viewProjection_, playerPostion);
 
 	// CameraController
-	CameraController::Rect cameraArea = {12.0f, 100 - 12.0f, 6.0f, 6.0f};
+	CameraController::Rect cameraArea = {0.0f, 100 - 12.0f, 6.0f, 6.0f};
 	cameraController_ = new CameraController();
 	cameraController_->Initialize();
 	cameraController_->SetTarget(player_);

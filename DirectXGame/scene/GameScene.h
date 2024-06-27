@@ -71,6 +71,7 @@ private: // メンバ変数
 
 	// MapBlock
 	Model* blockModel_ = nullptr;
+
 	bool isDebugCameraActive_ = false;
 	DebugCamera* debugCamera_ = nullptr;
 

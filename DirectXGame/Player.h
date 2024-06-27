@@ -45,7 +45,8 @@ public:
 	// 描画
 	void Draw();
 
-	void PrayerMove();
+	void PrayerMove();//自機の動き
+	void PrayerTurn();//自機の振り向き
 
 	float EaseOutSine(float x);
 	const WorldTransform &GetWorldTransform() { return worldTransform_; }
@@ -57,7 +58,11 @@ public:
 	Vector3 CornerPosition(const Vector3& centor, Corner corner);
 	void PlayerCollisionMove(const CollisionMapInfo& inffo);
 	void CeilingCollisionMove(const CollisionMapInfo& info);
+	void OnGroundSwitching(const CollisionMapInfo& info);
+	void HitWallCollisionMove(const CollisionMapInfo& info);
 	
+
+	// 当たり判定
 	void CollisionMapInfoTop  (CollisionMapInfo& info);
 	void CollisionMapInfoBootm(CollisionMapInfo& info);
 	void CollisionMapInfoRight(CollisionMapInfo& info);
@@ -89,5 +94,8 @@ private:
 	static inline const float kWidth = 0.8f;
 	static inline const float kHeight = 0.8f;
 	static inline const float kBlank = 1.0;
+	static inline const float kAttenuationLanding = 0.1f;
+	static inline const float kCollisionsmallnumber = 0.1f;
+	static inline const float kAttenuationWall = 0.1f;
 
 };
