@@ -384,6 +384,8 @@ const Vector3 operator*(const Vector3& v1, const float& v2) {
 	return resurut;
 }
 
+//float Dot(float v1, float v2) { return 0.0f; }
+
 Vector3 Cross(const Vector3& v1, const Vector3& v2) {
 	Vector3 ans;
 
@@ -429,5 +431,12 @@ Vector3 Lerp(const Vector3& a, const Vector3& b, float t) {
 	ans.y = t * a.y + (1.0f - t) * b.y;
 	ans.z = t * a.z + (1.0f - t) * b.z;
 
+	return ans;
+}
+
+float fLerp(float a, float b, float t) { 
+	float  ans;
+
+	ans = t * a + (1.0f - t) * b;
 	return ans;
 }

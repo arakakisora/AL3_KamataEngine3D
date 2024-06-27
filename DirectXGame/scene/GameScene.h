@@ -1,18 +1,19 @@
 #pragma once
 
 #include "Audio.h"
+#include "CameraController.h"
 #include "DebugCamera.h"
 #include "DirectXCommon.h"
+#include "Enemy.h"
 #include "Input.h"
 #include "MapChipField.h"
 #include "Model.h"
+#include "MyMath.h"
 #include "Player.h" //プレイヤー
 #include "Skydome.h"
 #include "Sprite.h"
-#include "MyMath.h"
 #include "ViewProjection.h"
 #include "WorldTransform.h"
-#include "CameraController.h"
 #include <vector>
 
 /// <summary>
@@ -51,7 +52,6 @@ public: // メンバ関数
 	/// </summary>
 	void Draw();
 
-
 private: // メンバ変数
 	DirectXCommon* dxCommon_ = nullptr;
 	Input* input_ = nullptr;
@@ -61,13 +61,14 @@ private: // メンバ変数
 	/// ゲームシーン用
 	/// </summary>
 
+	ViewProjection viewProjection_; // ビュープロジェクション　ゲーム中に共通で一つ
+
 	// テクスチャハンドル
 	uint32_t texturHandle_ = 0;
 
 	// Player
-	Model* model_ = nullptr;        // 3Dモデル
-	ViewProjection viewProjection_; // ビュープロジェクション　ゲーム中に共通で一つ
-	Player* player_ = nullptr;      // 自機
+	Model* model_ = nullptr;   // 3Dモデル
+	Player* player_ = nullptr; // 自機
 
 	// MapBlock
 	Model* blockModel_ = nullptr;
@@ -83,9 +84,12 @@ private: // メンバ変数
 	// MapChipField
 	MapChipField* mapChipField_;
 
-	//CameraController
-	CameraController* cameraController_=nullptr;
+	// CameraController
+	CameraController* cameraController_ = nullptr;
 	static inline const float kWidth = 0.8f;
 	static inline const float kHeight = 0.8f;
 
+	// Enemy
+	Model* enemyModel_ = nullptr; // 3Dモデル
+	Enemy* enemy_ = nullptr;       // 敵
 };

@@ -28,10 +28,9 @@ void Player::Update() {
 	PlayerCollisionMove(collisionMapInfo);
 	OnGroundSwitching(collisionMapInfo);
 	HitWallCollisionMove(collisionMapInfo);
-	worldTransform_.UpdateMatrix();
-
 	PrayerTurn();
 
+	worldTransform_.UpdateMatrix();
 	// 行列を定数バッファに転送
 	worldTransform_.TransferMatrix();
 }
